@@ -1,5 +1,21 @@
 # Development guide
 
+## Phase 5 verification
+
+Feature tests use generated temporary data only and require no internet or
+private site records. Run:
+
+```bash
+ruff format --check .
+ruff check .
+mypy src tests
+pytest
+python -m pip check
+```
+
+The project targets Python 3.12. Phase 5 adds no dependency and deliberately
+excludes model-training and notebook tooling.
+
 ## Environment
 
 SolarPulse AI targets Python 3.12 exclusively during this initial phase. Use an

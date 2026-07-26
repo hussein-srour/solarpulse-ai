@@ -1,5 +1,15 @@
 # Hourly data foundation
 
+## Feature dataset
+
+Feature building reuses the canonical hourly validator, converts timestamps to
+UTC, and sorts by `site_id,timestamp`. It rejects duplicate keys, invalid
+numerics, missing site configurations, and unexpected unused configurations.
+It never corrects, deletes, fills, interpolates, or clips validated records.
+Keys, target, predictors, split metadata, and eligibility metadata have explicit
+roles documented in [features.md](features.md). Generated data and reports stay
+under ignored `data/processed/` and `reports/` locations.
+
 The data layer defines and enforces the canonical contract shared by future
 solar-generation and weather integrations. It reads local CSV files, converts
 timestamps to UTC, validates every record, reports invalid rows without

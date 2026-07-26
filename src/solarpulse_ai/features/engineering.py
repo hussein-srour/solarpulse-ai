@@ -1,5 +1,6 @@
-"""Feature engineering boundary.
+"""Compatibility exports for the feature-engineering pipeline."""
 
-Reproducible time-series transformations will be implemented alongside the
-validated input schemas and forecasting evaluation design.
-"""
+from solarpulse_ai.features.config import FeatureConfig
+from solarpulse_ai.features.pipeline import FeatureResult, run_feature_pipeline
+
+__all__ = ["FeatureConfig", "FeatureResult", "run_feature_pipeline"]

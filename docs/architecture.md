@@ -1,5 +1,14 @@
 # Planned architecture
 
+## Feature-engineering boundary
+
+`solarpulse_ai.features` sits after canonical validation and Phase 4 split
+planning, and before future model training. Typed modules separate
+configuration, site registry, temporal/weather/history transformations,
+eligibility, split integration, contract/lineage, reports, orchestration, and
+CLI execution. Generation predictors respect `target timestamp - forecast
+horizon`; the target is never part of the predictor contract.
+
 SolarPulse AI is organised as a modular pipeline with explicit boundaries
 between data acquisition, analytical workflows, and delivery surfaces. The
 foundation does not prescribe a model family or data platform before real
