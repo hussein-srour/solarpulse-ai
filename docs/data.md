@@ -81,3 +81,13 @@ must never be described as measured plant production; `ac_energy_kwh` comes
 only from the measured-generation CSV. See
 [Historical weather integration](weather.md) for provenance, commands,
 attribution, and limitations.
+
+## Phase 4 analytical use
+
+The exploratory-analysis command reads a private canonical processed CSV,
+passes it through this same validator, then orders the valid copy by `site_id`
+and UTC `timestamp`. Validation failures, duplicate keys, non-finite values, and
+out-of-range values stop analysis. Gaps and suspicious but schema-valid
+observations become indicators; they are never filled or corrected. Generated
+profiles, charts, flags, correlations, and split plans are written beneath the
+ignored `reports/` tree. See [Exploratory analysis and readiness](analysis.md).
