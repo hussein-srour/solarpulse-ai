@@ -1,5 +1,12 @@
 # SolarPulse AI
 
+Phase 5 adds a reusable, leakage-safe feature pipeline for the default
+24-hour-ahead `ac_energy_kwh` objective. It produces site-local temporal
+features, weather predictors, exact-time lags, cutoff-safe rolling history,
+eligibility metadata, chronological split labels, and lineage/quality reports.
+No model is trained. See [Feature engineering](docs/features.md) for the
+prediction-time contract and CLI.
+
 SolarPulse AI is an open-source platform for forecasting solar photovoltaic (PV)
 energy production and identifying abnormal system underperformance. The platform
 will combine historical generation measurements with weather observations to

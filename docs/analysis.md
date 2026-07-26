@@ -1,5 +1,14 @@
 # Exploratory analysis and dataset readiness
 
+## Handoff to feature engineering
+
+The optional Phase 4 `split_plan.json` supplies chronological UTC boundaries to
+Phase 5. Feature generation validates that training, validation, and testing
+periods are ordered, non-overlapping, and cover every input row, then emits
+`train`, `validation`, and `test` labels without shuffling. Backward-looking
+features may be calculated before assignment because exact lags and rolling
+windows strictly respect the forecast cutoff.
+
 ## Why this phase comes before training
 
 Exploratory data analysis (EDA) checks whether the canonical hourly dataset is
