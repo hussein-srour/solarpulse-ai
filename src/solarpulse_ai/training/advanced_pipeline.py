@@ -688,7 +688,11 @@ def _robustness_analysis(rows: pd.DataFrame, predictions: np.ndarray) -> pd.Data
     ):
         if column in working:
             values = pd.to_numeric(working[column], errors="coerce")
-            finite = np.isfinite(values.to_numpy(float))
+            finite = pd.Series(
+                np.isfinite(values.to_numpy(float)),
+                index=working.index,
+                dtype=bool,
+            )
             if finite.any():
                 threshold = float(values.loc[finite].median())
                 cohorts.extend(
