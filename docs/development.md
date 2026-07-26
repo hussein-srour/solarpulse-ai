@@ -13,9 +13,11 @@ pytest
 python -m pip check
 ```
 
-The project targets Python 3.12. Phase 6 adds bounded scikit-learn and joblib
-dependencies. It excludes notebooks, cloud SDKs, experiment trackers, tuning
-frameworks, and heavyweight deep-learning/boosting libraries.
+The project targets Python 3.12. Phase 7 adds bounded `xgboost>=3.0,<4.0`
+alongside scikit-learn and joblib; it does not add a remote tracker, cloud SDK,
+LightGBM, CatBoost, TensorFlow, or PyTorch. XGBoost wheels require OpenMP on
+macOS (`brew install libomp`). Linux CI wheels provide their normal runtime
+path.
 
 ## Environment
 
@@ -66,6 +68,12 @@ construct temporary datasets and use matplotlib's non-interactive `Agg`
 backend, so CI requires neither a display nor internet access. See
 [Exploratory analysis and readiness](analysis.md) for configurable thresholds
 and split options.
+
+Phase 7 tests use only small generated solar-like fixtures, `n_jobs=1`, bounded
+trees, and no network. Their metrics validate software behaviour and must never
+be described as real plant performance. Experiment and model outputs belong
+under ignored `reports/` and `artifacts/` paths. Run the workflow documented in
+[Advanced forecasting](advanced-forecasting.md).
 
 Install the pre-commit hooks once per clone:
 

@@ -222,6 +222,11 @@ __marimo__/
 /artifacts/
 /models/
 /reports/
+*.pkl
+*.pickle
+**/cross_validation_*.csv
+**/fold_predictions/
+**/model_registry.json
 *.joblib
 **/validation_predictions.csv
 **/test_predictions.csv

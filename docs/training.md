@@ -111,5 +111,5 @@ records, secrets, or environment variables.
 Historical observations/reanalysis weather are proxies for forecasts available
 24 hours ahead and may make offline results optimistic. Synthetic tests validate
 software, not plant performance. Test results do not guarantee future
-performance. Advanced models, tuning, experiment tracking, monitoring, and
-production forecast-weather validation belong to later phases.
+performance. Phase 7 builds on these exact interfaces; see
+[Advanced forecasting](advanced-forecasting.md).

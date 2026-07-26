@@ -97,3 +97,9 @@ illustrative Dar es Salaam metadata only, not a production or confidential site.
 The Phase 6 interface consumes this contract, selects only declared predictors,
 fits imputation/encoding/scaling inside training-only pipelines, and evaluates
 chronologically. See [Baseline model training](training.md).
+
+Phase 7 reuses the same ordered predictor contract for every rolling-origin
+fold and rejects target, keys, split, and eligibility metadata as predictors.
+Each fold fits its own imputation and encoding on its expanding training window.
+Neither Phase 5 validation nor test rows enter tuning. See
+[Advanced forecasting](advanced-forecasting.md).
