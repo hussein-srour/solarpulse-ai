@@ -219,10 +219,17 @@ __marimo__/
 
 # SolarPulse AI local configuration and artifacts
 .python-version.local
-/data/
 /artifacts/
 /models/
 /reports/
+
+# Operational and generated datasets (retain only directory markers)
+/data/raw/*
+!/data/raw/.gitkeep
+/data/processed/*
+!/data/processed/.gitkeep
+/data/external/*
+!/data/external/.gitkeep
 
 # Editors and operating systems
 .idea/
