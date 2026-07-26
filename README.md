@@ -10,12 +10,14 @@ validation, and a historical-weather integration that joins Open-Meteo weather
 with measured generation. Forecasting and anomaly-detection models have not yet
 been implemented.
 
-## Phase 3 system architecture
+## Phase 4 system architecture
 
 ```text
 Measured generation CSV ─> Generation validation ─┐
                                                   ├─> Strict UTC join ─> Canonical validation
 Open-Meteo archive ─> Weather adapter/validation ─┘                         │
+                                                                            ├─> Exploratory analysis/reports
+                                                                            ├─> Chronological split plan
                                                                             ├─> Feature engineering
                                                                             │
                                                     ├─> Forecast training
@@ -37,6 +39,7 @@ become available.
 - Python 3.12
 - FastAPI and Uvicorn for the HTTP API
 - pandas for canonical tabular ingestion and validation
+- matplotlib for headless exploratory charts
 - Pydantic Settings for typed environment configuration
 - pytest for automated testing
 - Ruff for linting and formatting
@@ -60,6 +63,7 @@ become available.
 │   └── raw/                 # Local source data
 ├── src/solarpulse_ai/
 │   ├── anomaly/             # Underperformance detection boundary
+│   ├── analysis/            # EDA, diagnostics, readiness, and split planning
 │   ├── api/                 # FastAPI routing and response schemas
 │   ├── config/              # Environment-backed application settings
 │   ├── dashboard/           # Future dashboard boundary
@@ -68,6 +72,7 @@ become available.
 │   ├── models/              # Training and prediction boundaries
 │   └── main.py              # FastAPI application factory and entry point
 ├── tests/
+│   ├── analysis/            # Programmatic EDA and reporting tests
 │   └── api/                 # API endpoint tests
 ├── Dockerfile
 ├── docker-compose.yml
@@ -206,6 +211,28 @@ or fabricated by the weather adapter. The join requires a unique, exact
 See [Historical weather integration](docs/weather.md) for configuration, field
 mapping, input formats, attribution, and data-quality limitations.
 
+## Exploratory analysis and dataset readiness
+
+Phase 4 profiles a private local canonical CSV before any model training. It
+validates with the Phase 2 contract, works entirely in UTC, produces
+non-destructive data-quality indicators, recommends leakage-resistant
+chronological splits, and writes local Markdown, JSON, CSV, and matplotlib
+reports. It never fills, clips, interpolates, deletes, or silently corrects
+records.
+
+```bash
+python -m solarpulse_ai.analysis.eda \
+  --input data/processed/training_dataset.csv \
+  --output-dir reports/eda
+```
+
+The generated `reports/` tree and operational datasets remain ignored by Git.
+Use `--write-splits` only when separate local training, validation, and testing
+CSVs are explicitly wanted; the default creates only `split_plan.json`. No
+machine-learning model is trained. See
+[Exploratory analysis and readiness](docs/analysis.md) for outputs, charts,
+thresholds, readiness rules, and private-data workflow.
+
 ## Quality checks and tests
 
 Run all required checks:
@@ -242,6 +269,7 @@ applicable privacy, security, and licensing requirements.
 - [Architecture](docs/architecture.md)
 - [Hourly data foundation](docs/data.md)
 - [Historical weather integration](docs/weather.md)
+- [Exploratory analysis and readiness](docs/analysis.md)
 - [Development guide](docs/development.md)
 
 ## Licence

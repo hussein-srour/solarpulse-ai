@@ -36,6 +36,20 @@ Historical-weather download and generation joining are documented in
 mock transport and must never call the live Open-Meteo service. Use only
 illustrative site metadata in tests and documentation.
 
+Run Phase 4 analysis against a private local processed CSV:
+
+```bash
+python -m solarpulse_ai.analysis.eda \
+  --input data/processed/training_dataset.csv \
+  --output-dir reports/eda
+```
+
+Do not stage anything from `reports/` or the data directories. Phase 4 tests
+construct temporary datasets and use matplotlib's non-interactive `Agg`
+backend, so CI requires neither a display nor internet access. See
+[Exploratory analysis and readiness](analysis.md) for configurable thresholds
+and split options.
+
 Install the pre-commit hooks once per clone:
 
 ```bash

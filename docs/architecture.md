@@ -29,6 +29,16 @@ unmatched generation timestamps fail explicitly. No gap filling or
 interpolation occurs, and the Phase 2 validator checks the final canonical
 dataset. See [Historical weather integration](weather.md).
 
+### Exploratory analysis
+
+The `solarpulse_ai.analysis` package consumes only Phase 2-valid canonical CSV
+data. Small typed modules separate profiling, descriptive statistics, temporal
+analysis, Pearson correlation, non-destructive quality indicators, readiness
+rules, chronological split planning, charts, report writing, and CLI
+orchestration. All internal timestamps are UTC. The analysis does not mutate
+records or train models, and generated reports remain local under the ignored
+`reports/` directory. See [Exploratory analysis and readiness](analysis.md).
+
 ### Feature engineering
 
 Future versioned transformations will derive only features justified by the
