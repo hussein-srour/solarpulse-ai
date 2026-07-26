@@ -1,0 +1,9 @@
+{
+  "site_id": "example-dar-es-salaam-site",
+  "latitude": -6.7924,
+  "longitude": 39.2083,
+  "timezone": "Africa/Dar_es_Salaam",
+  "installed_capacity_kwp": 10.0,
+  "panel_tilt_degrees": 10.0,
+  "panel_azimuth_degrees": 0.0
+}

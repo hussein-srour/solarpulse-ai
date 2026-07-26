@@ -72,9 +72,12 @@ for each validation rule.
 Records are sorted chronologically after validation. Invalid records are never
 silently dropped, imputed, clipped, or otherwise corrected.
 
-## Future sources
+## Phase 3 sources
 
-Real generation and weather sources will be selected and integrated in a later
-phase, once source contracts, credentials, licensing, and representative data
-are available. No external API connection, production dataset, model, or model
-result is included in this phase.
+Phase 3 keeps measured generation separate from external Open-Meteo historical
+weather until both have been independently validated. The strict join produces
+this canonical contract without interpolation. Weather is reanalysis data and
+must never be described as measured plant production; `ac_energy_kwh` comes
+only from the measured-generation CSV. See
+[Historical weather integration](weather.md) for provenance, commands,
+attribution, and limitations.

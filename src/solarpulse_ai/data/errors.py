@@ -11,6 +11,18 @@ class CSVIngestionError(DataLayerError):
     """Raised when a CSV cannot be located, read, or written."""
 
 
+class SiteConfigurationError(DataLayerError):
+    """Raised when a site configuration file cannot be loaded or validated."""
+
+
+class WeatherAPIError(DataLayerError):
+    """Raised when historical weather cannot be retrieved or decoded safely."""
+
+
+class DatasetJoinError(DataLayerError):
+    """Raised when generation and weather records cannot be joined strictly."""
+
+
 @dataclass(frozen=True, slots=True)
 class ValidationIssue:
     """One validation problem, optionally linked to a column and CSV rows."""
