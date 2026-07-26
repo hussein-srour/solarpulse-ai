@@ -1,9 +1,9 @@
 # Development guide
 
-## Phase 5 verification
+## Phase 6 verification
 
-Feature tests use generated temporary data only and require no internet or
-private site records. Run:
+Feature and training tests use generated temporary data only and require no
+internet or private site records. Run:
 
 ```bash
 ruff format --check .
@@ -13,8 +13,9 @@ pytest
 python -m pip check
 ```
 
-The project targets Python 3.12. Phase 5 adds no dependency and deliberately
-excludes model-training and notebook tooling.
+The project targets Python 3.12. Phase 6 adds bounded scikit-learn and joblib
+dependencies. It excludes notebooks, cloud SDKs, experiment trackers, tuning
+frameworks, and heavyweight deep-learning/boosting libraries.
 
 ## Environment
 

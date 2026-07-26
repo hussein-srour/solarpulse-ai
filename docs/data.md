@@ -16,6 +16,11 @@ timestamps to UTC, validates every record, reports invalid rows without
 silently changing or deleting them, and writes valid data to the processed
 area. It does not call external APIs or perform modelling.
 
+Phase 6 consumes the CSV only with its matching manifest, filters explicit
+eligibility, validates chronological splits, and selects declared predictors.
+Generated prediction reports omit predictor values. See
+[Baseline model training](training.md).
+
 ## Directory layout
 
 - `data/raw/` is for source files kept only on the local system.

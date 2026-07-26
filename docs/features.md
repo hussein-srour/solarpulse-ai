@@ -94,7 +94,6 @@ target lags, rolling windows, and weather lags. Switches can disable raw weather
 weather lags, target history, or site metadata. `config/example_site.json` is
 illustrative Dar es Salaam metadata only, not a production or confidential site.
 
-The future training interface should consume the feature contract, select only
-predictors, fit missing-value and scaling policies on the training split, and
-evaluate chronologically. Phase 5 intentionally trains no model.
-
+The Phase 6 interface consumes this contract, selects only declared predictors,
+fits imputation/encoding/scaling inside training-only pipelines, and evaluates
+chronologically. See [Baseline model training](training.md).

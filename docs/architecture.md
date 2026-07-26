@@ -55,9 +55,12 @@ forecasting and monitoring use cases from the already aligned canonical data.
 
 ### Model training and prediction
 
-Training will be reproducible and evaluated against transparent baselines.
-Prediction will load versioned, approved artifacts and expose a stable
-application boundary. Neither workflow is implemented in this foundation.
+`solarpulse_ai.training` separates configuration, feature-contract/data
+validation, preprocessing, fixed estimators, cohorts, metrics, selection,
+persistence, manifests, model cards, charts, and CLI execution. Train-only
+pipelines feed a validation-only selector; the untouched test edge is reached
+after selection. Generated artifacts remain outside version control. The
+`models` package remains the future online inference boundary.
 
 ### Anomaly detection
 
