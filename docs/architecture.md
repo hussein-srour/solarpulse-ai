@@ -62,6 +62,14 @@ pipelines feed a validation-only selector; the untouched test edge is reached
 after selection. Generated artifacts remain outside version control. The
 `models` package remains the future online inference boundary.
 
+Phase 7 adds focused advanced modules without creating a parallel training
+system: an expanding rolling-origin splitter, deterministic XGBoost candidate
+generator and tuner, cross-validation reports, local experiment tracking,
+versioned trusted artifacts, and an atomic champion/challenger registry.
+Training-only folds tune parameters; a shared validation cohort selects among
+advanced and Phase 6 candidates; test results cannot change selection or
+promotion.
+
 ### Anomaly detection
 
 Underperformance detection will compare observed behaviour with an appropriate

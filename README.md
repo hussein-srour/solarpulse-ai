@@ -1,10 +1,11 @@
 # SolarPulse AI
 
-Phase 6 adds reproducible baseline training for the default 24-hour-ahead
-`ac_energy_kwh` objective. It consumes the Phase 5 contract, fits preprocessing
-on training only, selects among five baselines by validation MAE, and evaluates
-the fixed winner once on untouched test data. See
-[Baseline model training](docs/training.md).
+Phase 7 extends reproducible baseline training with bounded XGBoost tuning,
+expanding-window rolling-origin cross-validation, local experiment tracking,
+versioned artifacts, and a champion/challenger registry. Tuning sees
+training-labelled rows only; validation selects the champion; the test
+partition remains untouched until final reporting. See
+[Advanced forecasting](docs/advanced-forecasting.md).
 
 SolarPulse AI is an open-source platform for forecasting solar photovoltaic (PV)
 energy production and identifying abnormal system underperformance. The platform
@@ -253,6 +254,35 @@ python -m solarpulse_ai.training.train \
 Generated models and evaluation outputs remain ignored. Historical/reanalysis
 weather can make results optimistic; synthetic test metrics are not a
 production-performance claim.
+
+## Advanced forecasting
+
+```bash
+python -m solarpulse_ai.training.advanced \
+  --features data/processed/model_features.csv \
+  --feature-manifest reports/features/feature_manifest.json \
+  --output-dir reports/experiments \
+  --artifact-dir artifacts/models \
+  --registry artifacts/model_registry.json \
+  --search-budget 24 \
+  --cv-splits 5 \
+  --cv-gap-hours 24 \
+  --validation-window-hours 336 \
+  --selection-metric mae \
+  --random-seed 42
+```
+
+The command compares tuned XGBoost with the Phase 6 persistence, Ridge, random
+forest, and histogram-gradient-boosting candidates on one validation cohort.
+Generated experiments, predictions, charts, models, and registry files remain
+Git-ignored. On macOS, XGBoost requires the OpenMP runtime (for example,
+`brew install libomp`). Joblib/pickle artifacts must be loaded only from
+trusted sources after checksum and feature-order verification.
+
+Historical or reanalysis weather is only a development proxy. Production
+forecasts require weather known before prediction time; observed target-time
+weather may make evaluation optimistic. Tuning does not remove this limitation,
+and synthetic tests do not represent real plant performance.
 
 ## Quality checks and tests
 
