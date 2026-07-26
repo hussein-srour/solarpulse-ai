@@ -26,6 +26,11 @@ make check
 Ruff enforces lint and formatting rules, mypy runs in strict mode, and pytest
 executes the automated test suite with a minimum coverage threshold.
 
+Hourly CSV ingestion can be exercised locally with illustrative data using the
+command documented in [Hourly data foundation](data.md). Do not commit files
+placed in `data/raw`, `data/external`, or `data/processed`; only their
+`.gitkeep` markers belong in version control.
+
 Install the pre-commit hooks once per clone:
 
 ```bash

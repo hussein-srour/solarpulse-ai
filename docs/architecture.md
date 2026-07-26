@@ -9,15 +9,18 @@ operational requirements and representative datasets are available.
 
 ### Data ingestion
 
-Source-specific adapters will acquire historical PV generation and weather
-observations. Adapters will preserve source metadata and make ingestion
-repeatable without embedding credentials in the repository.
+The current local CSV adapter reads hourly PV generation and weather
+observations into a source-independent canonical schema, then writes validated
+processed output. Future source-specific adapters will preserve source
+metadata and make acquisition repeatable without embedding credentials in the
+repository.
 
 ### Data validation
 
-Validation will enforce canonical schemas, timestamps, units, ranges, and
-cross-field constraints. Invalid observations will be reported explicitly
-rather than silently corrected.
+Validation enforces the documented hourly schema, UTC timestamps, numeric
+types, ranges, and unique site/timestamp keys. Invalid observations are
+reported explicitly rather than silently corrected. See
+[Hourly data foundation](data.md) for the field-level contract.
 
 ### Feature engineering
 
@@ -47,6 +50,6 @@ included yet.
 
 - Settings use typed environment variables with the `SOLARPULSE_` prefix.
 - Secrets must be supplied at runtime and never committed.
-- Structured logging, persistence, orchestration, authentication, telemetry,
-  and model governance will be designed alongside their production
-  requirements.
+- Reusable standard-library logging is configured without environment or
+  credential values. Persistence, orchestration, authentication, telemetry,
+  and model governance will be designed alongside production requirements.
