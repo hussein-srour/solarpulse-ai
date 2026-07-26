@@ -1,0 +1,1 @@
+"""SolarPulse AI test suite."""

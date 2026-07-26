@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# SolarPulse AI local configuration and artifacts
+.python-version.local
+/data/
+/artifacts/
+/models/
+/reports/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+
+# Local tooling
+.pre-commit-cache/
+work/
+outputs/
