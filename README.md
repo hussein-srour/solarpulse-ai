@@ -1,21 +1,19 @@
 # SolarPulse AI
 
-Phase 5 adds a reusable, leakage-safe feature pipeline for the default
-24-hour-ahead `ac_energy_kwh` objective. It produces site-local temporal
-features, weather predictors, exact-time lags, cutoff-safe rolling history,
-eligibility metadata, chronological split labels, and lineage/quality reports.
-No model is trained. See [Feature engineering](docs/features.md) for the
-prediction-time contract and CLI.
+Phase 6 adds reproducible baseline training for the default 24-hour-ahead
+`ac_energy_kwh` objective. It consumes the Phase 5 contract, fits preprocessing
+on training only, selects among five baselines by validation MAE, and evaluates
+the fixed winner once on untouched test data. See
+[Baseline model training](docs/training.md).
 
 SolarPulse AI is an open-source platform for forecasting solar photovoltaic (PV)
 energy production and identifying abnormal system underperformance. The platform
 will combine historical generation measurements with weather observations to
 support reliable operations, maintenance, and energy planning.
 
-This repository contains the project foundation, API service, canonical data
-validation, and a historical-weather integration that joins Open-Meteo weather
-with measured generation. Forecasting and anomaly-detection models have not yet
-been implemented.
+This repository contains the project foundation, data and weather pipelines,
+exploratory analysis, feature engineering, and offline baseline forecasting.
+Online prediction and anomaly-detection models have not yet been implemented.
 
 ## Phase 4 system architecture
 
@@ -76,6 +74,7 @@ become available.
 │   ├── dashboard/           # Future dashboard boundary
 │   ├── data/                # Ingestion and validation boundaries
 │   ├── features/            # Feature engineering boundary
+│   ├── training/            # Baseline fitting, selection, evaluation
 │   ├── models/              # Training and prediction boundaries
 │   └── main.py              # FastAPI application factory and entry point
 ├── tests/
@@ -240,6 +239,21 @@ machine-learning model is trained. See
 [Exploratory analysis and readiness](docs/analysis.md) for outputs, charts,
 thresholds, readiness rules, and private-data workflow.
 
+## Baseline model training
+
+```bash
+python -m solarpulse_ai.training.train \
+  --features data/processed/model_features.csv \
+  --feature-manifest reports/features/feature_manifest.json \
+  --model-dir artifacts/models/phase-06 \
+  --report-dir reports/training \
+  --run-name baseline-v1
+```
+
+Generated models and evaluation outputs remain ignored. Historical/reanalysis
+weather can make results optimistic; synthetic test metrics are not a
+production-performance claim.
+
 ## Quality checks and tests
 
 Run all required checks:
@@ -259,9 +273,9 @@ pytest
 
 ## Future development roadmap
 
-1. Establish reproducible feature-engineering pipelines and data versioning.
-2. Add baseline forecasting experiments and evaluation methodology.
-3. Build a versioned model-training and prediction workflow.
+1. Extend the reproducible feature and baseline-training foundations.
+2. Validate forecast-time weather and add governed advanced-model experiments.
+3. Build a versioned online prediction workflow.
 4. Introduce anomaly detection with explainable alert thresholds.
 5. Expand the API with authenticated prediction and monitoring endpoints.
 6. Build the operational dashboard and observability integrations.

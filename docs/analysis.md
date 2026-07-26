@@ -9,6 +9,10 @@ periods are ordered, non-overlapping, and cover every input row, then emits
 features may be calculated before assignment because exact lags and rolling
 windows strictly respect the forecast cutoff.
 
+Phase 6 consumes these periods: candidates fit on train, validation MAE selects
+on a shared cohort, and the untouched test period is evaluated once after the
+winner is fixed. Test metrics never replace the validation winner.
+
 ## Why this phase comes before training
 
 Exploratory data analysis (EDA) checks whether the canonical hourly dataset is

@@ -222,6 +222,12 @@ __marimo__/
 /artifacts/
 /models/
 /reports/
+*.joblib
+**/validation_predictions.csv
+**/test_predictions.csv
+**/training_manifest.json
+**/training_summary.json
+**/model_card.md
 
 # Operational and generated datasets (retain only directory markers)
 /data/raw/*
