@@ -5,16 +5,19 @@ energy production and identifying abnormal system underperformance. The platform
 will combine historical generation measurements with weather observations to
 support reliable operations, maintenance, and energy planning.
 
-This repository currently contains the professional project foundation, API
-service, and development tooling. Forecasting and anomaly-detection models have
-not yet been implemented.
+This repository contains the project foundation, API service, canonical data
+validation, and a historical-weather integration that joins Open-Meteo weather
+with measured generation. Forecasting and anomaly-detection models have not yet
+been implemented.
 
-## Planned system architecture
+## Phase 3 system architecture
 
 ```text
-Generation data ─┐
-                 ├─> Ingestion ─> Validation ─> Feature engineering
-Weather data ────┘                                  │
+Measured generation CSV ─> Generation validation ─┐
+                                                  ├─> Strict UTC join ─> Canonical validation
+Open-Meteo archive ─> Weather adapter/validation ─┘                         │
+                                                                            ├─> Feature engineering
+                                                                            │
                                                     ├─> Forecast training
                                                     ├─> Prediction service
                                                     └─> Anomaly detection
@@ -163,8 +166,45 @@ timestamp,site_id,ac_energy_kwh,ghi_w_m2,ambient_temperature_c,cloud_cover_pct,r
 ```
 
 See the [hourly data foundation](docs/data.md) for the complete behaviour,
-directory policy, validation rules, and error reporting. Real data-source
-integrations are intentionally deferred to a later phase.
+directory policy, validation rules, and error reporting.
+
+## Historical weather and dataset joining
+
+Phase 3 retrieves hourly historical weather from the
+[Open-Meteo Historical Weather API](https://open-meteo.com/en/docs/historical-weather-api).
+Open-Meteo data are external model-based reanalysis data, not measurements from
+the solar installation. API data are provided under
+[CC BY 4.0](https://open-meteo.com/en/license) and require attribution.
+
+The checked-in [`config/example_site.json`](config/example_site.json) is an
+obviously illustrative Dar es Salaam configuration. It is not an AG Energies
+site and contains no confidential site information.
+
+Download up to 366 days of weather per invocation (automatically split into
+31-day requests):
+
+```bash
+python -m solarpulse_ai.data.weather \
+  --site-config config/example_site.json \
+  --start-date 2025-01-01 \
+  --end-date 2025-01-31 \
+  --output data/external/weather.csv
+```
+
+Join it to measured plant generation:
+
+```bash
+python -m solarpulse_ai.data.join \
+  --generation data/raw/generation.csv \
+  --weather data/external/weather.csv \
+  --output data/processed/training_dataset.csv
+```
+
+`ac_energy_kwh` must come from measured plant records. It is never derived from
+or fabricated by the weather adapter. The join requires a unique, exact
+`site_id` and UTC timestamp match and performs no interpolation or filling.
+See [Historical weather integration](docs/weather.md) for configuration, field
+mapping, input formats, attribution, and data-quality limitations.
 
 ## Quality checks and tests
 
@@ -185,14 +225,13 @@ pytest
 
 ## Future development roadmap
 
-1. Integrate approved real generation and weather sources.
-2. Establish reproducible feature-engineering pipelines and data versioning.
-3. Add baseline forecasting experiments and evaluation methodology.
-4. Build a versioned model-training and prediction workflow.
-5. Introduce anomaly detection with explainable alert thresholds.
-6. Expand the API with authenticated prediction and monitoring endpoints.
-7. Build the operational dashboard and observability integrations.
-8. Add deployment environments, model monitoring, and retraining automation.
+1. Establish reproducible feature-engineering pipelines and data versioning.
+2. Add baseline forecasting experiments and evaluation methodology.
+3. Build a versioned model-training and prediction workflow.
+4. Introduce anomaly detection with explainable alert thresholds.
+5. Expand the API with authenticated prediction and monitoring endpoints.
+6. Build the operational dashboard and observability integrations.
+7. Add deployment environments, model monitoring, and retraining automation.
 
 No production dataset or simulated model output is included. The documentation
 rows are illustrative formatting only. Future data additions must follow
@@ -202,6 +241,7 @@ applicable privacy, security, and licensing requirements.
 
 - [Architecture](docs/architecture.md)
 - [Hourly data foundation](docs/data.md)
+- [Historical weather integration](docs/weather.md)
 - [Development guide](docs/development.md)
 
 ## Licence

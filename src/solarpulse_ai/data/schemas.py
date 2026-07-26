@@ -23,6 +23,14 @@ class HourlyRecord(TypedDict):
     inverter_availability_pct: NotRequired[float]
 
 
+class MeasuredGenerationRecord(TypedDict):
+    """Typed representation of measured plant generation."""
+
+    timestamp: datetime
+    site_id: str
+    ac_energy_kwh: float
+
+
 @dataclass(frozen=True, slots=True)
 class FieldDefinition:
     """Machine-readable definition of a canonical dataset field."""

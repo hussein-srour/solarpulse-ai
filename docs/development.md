@@ -31,6 +31,11 @@ command documented in [Hourly data foundation](data.md). Do not commit files
 placed in `data/raw`, `data/external`, or `data/processed`; only their
 `.gitkeep` markers belong in version control.
 
+Historical-weather download and generation joining are documented in
+[Historical weather integration](weather.md). HTTP tests must use an injected
+mock transport and must never call the live Open-Meteo service. Use only
+illustrative site metadata in tests and documentation.
+
 Install the pre-commit hooks once per clone:
 
 ```bash

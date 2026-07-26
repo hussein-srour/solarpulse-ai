@@ -9,11 +9,10 @@ operational requirements and representative datasets are available.
 
 ### Data ingestion
 
-The current local CSV adapter reads hourly PV generation and weather
-observations into a source-independent canonical schema, then writes validated
-processed output. Future source-specific adapters will preserve source
-metadata and make acquisition repeatable without embedding credentials in the
-repository.
+The local CSV adapters keep measured generation separate from weather. The
+Open-Meteo adapter retrieves external historical reanalysis in bounded date
+chunks with explicit timeouts and retries. Source records are mapped into
+canonical weather names without fabricating measured plant production.
 
 ### Data validation
 
@@ -22,10 +21,18 @@ types, ranges, and unique site/timestamp keys. Invalid observations are
 reported explicitly rather than silently corrected. See
 [Hourly data foundation](data.md) for the field-level contract.
 
+### Dataset alignment
+
+Measured generation and validated weather are joined one-to-one using
+`site_id` and UTC timestamp. Duplicate keys, missing weather hours, and
+unmatched generation timestamps fail explicitly. No gap filling or
+interpolation occurs, and the Phase 2 validator checks the final canonical
+dataset. See [Historical weather integration](weather.md).
+
 ### Feature engineering
 
-Versioned transformations will align weather and generation time series and
-derive only features justified by the forecasting and monitoring use cases.
+Future versioned transformations will derive only features justified by the
+forecasting and monitoring use cases from the already aligned canonical data.
 
 ### Model training and prediction
 
